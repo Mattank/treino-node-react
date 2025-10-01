@@ -1,7 +1,7 @@
 const { z } = require("zod");
 const { passwordPolicy } = require("./passwordPolicy");
 
-exports.createUserSchema = z.object({
+exports.loginSchema = z.object({
   email: z.string().email(),
-  password: passwordPolicy,
+  password: z.string().min(8),
 });
