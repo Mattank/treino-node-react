@@ -1,11 +1,17 @@
 import { useState } from "react";
 import api from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Login({ onSuccess }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const Register = () => {
+    navigate("/register");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,8 +22,16 @@ export default function Login({ onSuccess }) {
       localStorage.setItem("token", res.data.token);
       if (onSuccess) onSuccess();
     } catch (err) {
-      setError(err.response?.data?.error || "Erro no login");
-    } finally {
+      const apiError = err.response?.data?.error;
+
+      if (typeof apiError === "string") {
+        setError(apiError);
+      } else if (apiError?.message) {
+        setError(apiError.message);
+      } else {
+        setError("Erro no login. Tente novamente.");
+      }
+    }finally {
       setLoading(false);
     }
   };
@@ -42,7 +56,7 @@ export default function Login({ onSuccess }) {
             {loading ? "Entrando..." : "Entrar"}
           </button>
 
-          <button type="button" className="w-full border border-gray-300 py-3 rounded-md font-medium hover:bg-gray-100 transition" onClick={() => alert("Ir para tela de registro")}>
+          <button type="button" className="w-full border border-gray-300 py-3 rounded-md font-medium hover:bg-gray-100 transition" onClick={Register}>
             Registrar
           </button>
         </div>
