@@ -20,6 +20,7 @@ export default function Login({ onSuccess }) {
     try {
       const res = await api.post("/auth/login", { email, password });
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userEmail", res.data.email);
       if (onSuccess) onSuccess();
     } catch (err) {
       const apiError = err.response?.data?.error;
