@@ -1,5 +1,9 @@
-require("dotenv").config();
+require("dotenv").config({ path: `.env.${process.env.NODE_ENV || "development"}` });
 const mysql = require("mysql2/promise");
+
+if (process.env.NODE_ENV === "production") {
+  throw new Error("NUNCA rode testes em produção!");
+}
 
 const pool = mysql.createPool({
     host: process.env.DB_HOST,

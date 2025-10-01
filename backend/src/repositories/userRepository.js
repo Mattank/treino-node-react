@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 exports.findByEmail = async (email) => {
   const [rows] = await db.query(
-    "SELECT id, email FROM users WHERE email = ? LIMIT 1", [email]
+    "SELECT id, email, password FROM users WHERE email = ? LIMIT 1", [email]
   );
   return rows[0];
 };
