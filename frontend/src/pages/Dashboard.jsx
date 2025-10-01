@@ -15,22 +15,30 @@ export default function Dashboard({ onLogout }) {
     setMessage("");
 
     try {
-      const res = await api.post(
-        "/emails/send",
-        { to, subject, body },
+      const sender = localStorage.getItem("userEmail");
+
+      await api.post(
+        "/email",
+        {
+          subject,
+          content: body,
+          sender,
+          destination: to,
+        },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      setMessage("Email enviado com sucesso!");
+
+      setMessage("Email registrado com sucesso!");
       setTo("");
       setSubject("");
       setBody("");
     } catch (err) {
       setMessage(
-        "Erro ao enviar email: " + (err.response?.data?.error || err.message)
+        "Erro ao registrar email: " + (err.response?.data?.error || err.message)
       );
     } finally {
       setLoading(false);

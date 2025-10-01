@@ -23,5 +23,5 @@ exports.login = async ({ email, password }) => {
 
   await tokenRepo.create({ userId: user.id, token, expiresAt });
 
-  return { token, expiresAt };
+  return { email, token, expiresAt };
 };

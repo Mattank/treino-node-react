@@ -18,6 +18,8 @@ app.use("/users", routes.userRoutes);
 
 app.use("/auth", routes.authRoutes);
 
+app.use("/email", routes.emailRoutes);
+
 app.use(errorHandler);
 
 module.exports = app;
